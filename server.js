@@ -4,6 +4,33 @@ import productRoutes from './routes/products.route.js'
 
 const app = express()
 
+//middleware
+//category - custom , inbuilt  , third party
+// - app level , - route level
+
+//md1 - > md2 ->md3 
+app.use((req,res,next) =>{
+    console.log('middleware 1')
+    next()
+})
+
+app.use((req,res,next) =>{
+    console.log('middleware 2')
+    next()
+})
+
+app.use((req,res,next) =>{
+    console.log('middleware 3')
+    next()
+})
+
+app.use((req,res,next) =>{
+    console.log('middleware 4')
+    next()
+})
+
+
+
 
 // without using routes
 
@@ -80,7 +107,6 @@ const app = express()
 // })
 
 //using routes
-
 
 app.use('/user',userRoutes)
 app.use('/products',productRoutes)

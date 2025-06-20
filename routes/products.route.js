@@ -11,6 +11,7 @@ export default router
 
 
 
+//without controller
 // router.get('/',(req,res)=>{
 //     res.json({
 //         message:'product fetched',
