@@ -30,6 +30,11 @@ app.use((req,res,next) =>{
 })
 
 
+app.use((req,res,next) =>{
+    console.log('middleware 5')
+    next()
+})
+
 
 
 // without using routes
