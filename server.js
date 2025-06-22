@@ -6,35 +6,36 @@ const app = express()
 
 //middleware
 //category - custom , inbuilt  , third party
+
+
 // - app level , - route level
 
 //md1 - > md2 ->md3 
-app.use((req,res,next) =>{
+app.use((req, res, next) => {
     console.log('middleware 1')
     next()
 })
 
-app.use((req,res,next) =>{
+app.use((req, res, next) => {
     console.log('middleware 2')
     next()
 })
 
-app.use((req,res,next) =>{
+app.use((req, res, next) => {
     console.log('middleware 3')
     next()
 })
 
-app.use((req,res,next) =>{
+app.use((req, res, next) => {
     console.log('middleware 4')
     next()
 })
 
 
-app.use((req,res,next) =>{
+app.use((req, res, next) => {
     console.log('middleware 5')
     next()
 })
-
 
 
 // without using routes
@@ -113,10 +114,31 @@ app.use((req,res,next) =>{
 
 //using routes
 
-app.use('/user',userRoutes)
-app.use('/products',productRoutes)
+app.use('/user', userRoutes)
+app.use('/products', productRoutes)
 
 
-app.listen(8080,()=>{
+//error handler middleware
+
+app.all('{*spalt}', (req, res, next) => {
+    const message = `cannot ${req.method} on ${req.url}`
+   const error = new Error(message)
+   next(error)
+})
+app.listen(8080, () => {
     console.log('server is running at http://localhost:8080')
+})
+
+
+//error handler middleware
+// error handler is not called itself like other,, we have to call it, to call it some parameter should be passed in next()
+
+app.use((err, req, res, next) => {
+    console.log(err)
+    res.status(500).json({
+        message: err?.message ?? 'internal server error',
+        success: 'false',
+        status: 'fail'
+    })
+
 })
