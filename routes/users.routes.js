@@ -1,4 +1,3 @@
-
 import express from 'express'
 import { getAll,getById,postUser,remove,update } from '../controllers/users.controller.js'
 const router = express.Router()
@@ -14,7 +13,6 @@ router.post('/',postUser)
 router.get('/:id',getById)
 router.delete('/:id',remove)
 router.put('/:id',update)
-
 
 export default router
 

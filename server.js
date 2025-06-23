@@ -1,8 +1,12 @@
 import express from 'express'
 import userRoutes from './routes/users.routes.js'
 import productRoutes from './routes/products.route.js'
+import { postProduct } from './controllers/product.controller.js'
 
 const app = express()
+
+//using middleware
+app.use(express.urlencoded({extended:true}))
 
 //middleware
 //category - custom , inbuilt  , third party
@@ -11,31 +15,31 @@ const app = express()
 // - app level , - route level
 
 //md1 - > md2 ->md3 
-app.use((req, res, next) => {
-    console.log('middleware 1')
-    next()
-})
+// app.use((req, res, next) => {
+//     console.log('middleware 1')
+//     next()
+// })
 
-app.use((req, res, next) => {
-    console.log('middleware 2')
-    next()
-})
+// app.use((req, res, next) => {
+//     console.log('middleware 2')
+//     next()
+// })
 
-app.use((req, res, next) => {
-    console.log('middleware 3')
-    next()
-})
+// app.use((req, res, next) => {
+//     console.log('middleware 3')
+//     next()
+// })
 
-app.use((req, res, next) => {
-    console.log('middleware 4')
-    next()
-})
+// app.use((req, res, next) => {
+//     console.log('middleware 4')
+//     next()
+// })
 
 
-app.use((req, res, next) => {
-    console.log('middleware 5')
-    next()
-})
+// app.use((req, res, next) => {
+//     console.log('middleware 5')
+//     next()
+// })
 
 
 // without using routes

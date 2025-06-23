@@ -1,28 +1,30 @@
-export const getAll = (req,res)=>{
-    res.json({
-        message:'product fetched',
-        data:['fan','ac','tv']
-    })
-}
+const product =[]
+
 
 export const getById = (req,res)=>{
     const {productId} = req.params
     res.json({
         message:`product with id ${productId} fetched`,
-        data:{
-            productId:productId,
-            title:'fan',
-            price:1400,
-            category:'electronics',
-        }
+        data: product
     })
 }
 
 
 export const postProduct = (req,res)=>{
+    product.push(req.body)
+    console.log(req.body)
     res.status(201).json({
-        message:'product post',
-        data:[]
+        message:'product is created',
+        success:true,
+        status:'success',
+        data:{...req.body}
+    })
+}
+
+export const getAll = (req,res)=>{
+    res.json({
+        message:'product fetched',
+        data:product
     })
 }
 
