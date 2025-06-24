@@ -117,8 +117,14 @@ app.use(express.urlencoded({extended:true}))
 // })
 
 //using routes
-
-app.use('/user', userRoutes)
+app.get('/',(req,res)=>{
+    res.status(200).json({
+        message:`server is up and running`,
+        success:true,
+        status:`success`
+    })
+})
+app.use('/users', userRoutes)
 app.use('/products', productRoutes)
 
 
@@ -126,8 +132,9 @@ app.use('/products', productRoutes)
 
 app.all('{*spalt}', (req, res, next) => {
     const message = `cannot ${req.method} on ${req.url}`
-   const error = new Error(message)
-   next(error)
+    let error = new Error(message)
+    error.statusCode = 404
+    next(error)
 })
 app.listen(8080, () => {
     console.log('server is running at http://localhost:8080')
@@ -138,11 +145,12 @@ app.listen(8080, () => {
 // error handler is not called itself like other,, we have to call it, to call it some parameter should be passed in next()
 
 app.use((err, req, res, next) => {
-    console.log(err)
-    res.status(500).json({
-        message: err?.message ?? 'internal server error',
-        success: 'false',
-        status: 'fail'
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+        message: err.message ?? 'internal server error',
+        success: err.success ?? 'error',
+        status: err.status ?? 'err',
+        data:null
     })
 
 })

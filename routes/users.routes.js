@@ -1,15 +1,16 @@
+
 import express from 'express'
-import { getAll,getById,postUser,remove,update } from '../controllers/users.controller.js'
+import { getAll,getById,create,remove,update } from '../controllers/users.controller.js'
 const router = express.Router()
 
 //route middleware
-const routeMiddleware =((req,res,next) =>{
-    console.log('route middleware')
-    next()
-})
+// const routeMiddleware =((req,res,next) =>{
+//     console.log('route middleware')
+//     next()
+// })
 
-router.get('/',routeMiddleware,getAll)
-router.post('/',postUser)
+router.get('/',getAll)
+router.post('/',create)
 router.get('/:id',getById)
 router.delete('/:id',remove)
 router.put('/:id',update)
