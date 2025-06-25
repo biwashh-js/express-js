@@ -2,6 +2,7 @@ import express from 'express'
 import userRoutes from './routes/users.routes.js'
 import productRoutes from './routes/products.route.js'
 import { postProduct } from './controllers/product.controller.js'
+import customError, { errorHandler } from './middleware/err-handler-middleware.js'
 
 const app = express()
 
@@ -130,10 +131,9 @@ app.use('/products', productRoutes)
 
 //error handler middleware
 
-app.all('{*spalt}', (req, res, next) => {
+app.all('{*spalt}',(req, res, next) => {
     const message = `cannot ${req.method} on ${req.url}`
-    let error = new Error(message)
-    error.statusCode = 404
+    const error = new customError(message,404)
     next(error)
 })
 app.listen(8080, () => {
@@ -144,13 +144,4 @@ app.listen(8080, () => {
 //error handler middleware
 // error handler is not called itself like other,, we have to call it, to call it some parameter should be passed in next()
 
-app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    res.status(statusCode).json({
-        message: err.message ?? 'internal server error',
-        success: err.success ?? 'error',
-        status: err.status ?? 'err',
-        data:null
-    })
-
-})
+app.use(errorHandler)

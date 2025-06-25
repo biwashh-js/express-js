@@ -1,27 +1,16 @@
+import customError from "../middleware/err-handler-middleware.js"
 const users = []
 export const create = (req,res,next)=>{
     try{
         const{name,email,password} = req.body
         if(!name){
-            let error = new Error(`name is required`)
-            error.statusCode = 400;
-            error.status = 'fail';
-            error.success= false
-            throw error
+            throw new customError('name is required',400) 
         }
            if(!email){
-            let error = new Error(`email is required`)
-            error.statusCode = 400;
-            error.status = 'fail';
-            error.success= false
-            throw error
+           throw new customError('email is required',400) 
         }
            if(!password){
-            let error = new Error(`password is required`)
-            error.statusCode = 400;
-            error.status = 'fail';
-            error.success= false
-            throw error
+            throw new customError('password is required',400) 
         }
 
         console.log(req.body)
