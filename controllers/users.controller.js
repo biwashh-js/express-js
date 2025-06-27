@@ -1,25 +1,20 @@
 import customError from "../middleware/err-handler-middleware.js"
-const users = []
-export const create = (req,res,next)=>{
-    try{
-        const{name,email,password} = req.body
-        if(!name){
-            throw new customError('name is required',400) 
-        }
-           if(!email){
-           throw new customError('email is required',400) 
-        }
-           if(!password){
-            throw new customError('password is required',400) 
-        }
+import mongoose from "mongoose"
+import { userSchema } from "../models/user.models.js"
+// const users = []
 
+const User = mongoose.model('user',userSchema);
+
+export const create = async (req,res,next)=>{
+    try{
+        const{name,email,password,phone} = req.body
         console.log(req.body)
-        users.push(req.body)
+        const user = await User.create({name,email,password,phone})
         res.status(201).json({
-            message:'user is created',
+            message:'user registered.',
             status:'success',
             success:true,
-            data:{...req.body}
+            data:user,
         })
     }
     catch(error){
@@ -28,11 +23,19 @@ export const create = (req,res,next)=>{
 
 }
 
-export const getAll =(req,res)=>{
-    res.status(200).json({
+export const getAll =async (req,res,next)=>{
+    try{
+        const users = await User.find()
+        res.status(200).json({
         message:'user fetched',
-        data:users
+        status:'success',
+        success:true,
+        data:users,
     })
+    }
+    catch(error){
+    next(error)
+}
 }
 
 // export const postUser = (req,res)=>{
@@ -43,16 +46,18 @@ export const getAll =(req,res)=>{
 // }
 
 
-export const getById = (req,res)=>{
+export const getById = async (req,res,next)=>{
     const {id} = req.params
-    res.status(200).json({
+    try{
+        const users = await User.findById()
+        res.status(200).json({
         message:`user with ${id} fetched`,
-        data:{
-            
-            id:id,
-            name:'ram'
-        }
+        data:users
     })
+}catch(error){
+    next(error)
+}
+   
 }
 
 export const remove = (req,res)=>{

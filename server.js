@@ -3,12 +3,20 @@ import userRoutes from './routes/users.routes.js'
 import productRoutes from './routes/products.route.js'
 import { postProduct } from './controllers/product.controller.js'
 import customError, { errorHandler } from './middleware/err-handler-middleware.js'
-
+import mongoose from 'mongoose'
 const app = express()
 
 //using middleware
 app.use(express.urlencoded({extended:true}))
 
+mongoose
+.connect("mongodb://localhost:27017/test_db")
+.then(()=>{
+    console.log("db connected");
+})
+.catch((err)=>{
+    console.log(err)
+})
 //middleware
 //category - custom , inbuilt  , third party
 
