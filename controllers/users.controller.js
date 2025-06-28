@@ -14,7 +14,7 @@ export const create = async (req,res,next)=>{
             message:'user registered.',
             status:'success',
             success:true,
-            data:user,
+            data:users,
         })
     }
     catch(error){
@@ -49,7 +49,7 @@ export const getAll =async (req,res,next)=>{
 export const getById = async (req,res,next)=>{
     const {id} = req.params
     try{
-        const users = await User.findById()
+        const users = await User.findById(id)
         res.status(200).json({
         message:`user with ${id} fetched`,
         data:users
@@ -60,21 +60,33 @@ export const getById = async (req,res,next)=>{
    
 }
 
-export const remove = (req,res)=>{
-    const id= req.params.id
+export const remove = async (req,res,next)=>{
+    const {id }= req.params
     const query = req.query
-    console.log(query)
-    res.status(200).json({
-        message:`user with ${id} deleted`,
-    })
+    try{
+        const deletedUser = await User.findByIdAndDelete(id)
+        const updatedUsers = await User.find()
+        res.status(200).json({
+            message:`user with id ${id} deleted`,
+            data:updatedUsers
+        })
+    }catch(error){
+        next(error)
+    }
 }
 
 
-export const update = (req,res)=>{
-    const id = req.params.id
+export const update = async(req,res,next)=>{
+    const {id}= req.params
     const query = req.query
+    try{    
+     const users = await User.findByIdAndUpdate(id)
     console.log(query)
     res.status(200).json({
         message:`user with ${id} updated`,
+        data:users
     })
+}catch(error){
+    next(error)
+}
 }
