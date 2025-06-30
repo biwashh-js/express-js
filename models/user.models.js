@@ -1,19 +1,19 @@
 import mongoose from "mongoose";
-export const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
         name:{
             type:String,
-            required:true,
+            required:[true,'name is required'],
             trim:true,
         },
         email:{
             type:String,
-            required:[true,'email is requires'],
+            required:[true,'email is required'],
             unique:[true,'user already exist with provided email'],
             trim:true,
 
         },
         password:{
-            type:String,
+            type:String,    
             required:true,
             min:[4,'password must be least 5 char long']
         },
@@ -21,3 +21,5 @@ export const userSchema = new mongoose.Schema({
             type:String,
         }
     })
+const User = mongoose.model('user',userSchema);
+export default User

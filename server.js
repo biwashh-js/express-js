@@ -17,6 +17,7 @@ mongoose
 .catch((err)=>{
     console.log(err)
 })
+
 //middleware
 //category - custom , inbuilt  , third party
 
