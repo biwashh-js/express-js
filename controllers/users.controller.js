@@ -1,22 +1,11 @@
 import customError from "../middleware/err-handler-middleware.js"
 import mongoose from "mongoose"
 import  User from "../models/user.models.js"
-// const users = []
-
 
 
 export const create = async (req,res,next)=>{
     try{
         const{name,email,password,phone} = req.body
-        // if(!name){
-        //     throw new customError('name is required',400)
-        // }
-        // if(!email){
-        //     throw new customError('email is required',400)
-        // }
-        // if(!password){
-        //     throw new customError('password is required',400)
-        // }
         console.log(req.body)
         const users = await User.create({name,email,password,phone})
         res.status(201).json({
